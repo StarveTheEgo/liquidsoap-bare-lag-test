@@ -7,7 +7,7 @@ services:
           context: ./
           dockerfile: ./docker/liquidsoap/Dockerfile
       volumes:
-          - ./docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+          - ./docker/liquidsoap/scripts:/var/liquidsoap/scripts:cached
       networks:
           - deer-radio-network
       healthcheck:
