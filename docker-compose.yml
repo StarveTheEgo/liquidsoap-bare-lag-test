@@ -1,0 +1,32 @@
+version: '2.4'
+
+services:
+  liquidsoap-test:
+      container_name: liquidsoap-test
+      build:
+          context: ./
+          dockerfile: ./docker/liquidsoap/Dockerfile
+      volumes:
+          - ./docker/liquidsoap/radio:/var/liquidsoap/radio:cached
+      networks:
+          - deer-radio-network
+      healthcheck:
+          test: curl -sS http://liquidsoap-test:8080/healthcheck | grep -c '"status":"ok"' > /dev/null
+          interval: 5s
+          timeout: 5s
+          retries: 55
+      restart: on-failure
+
+networks:
+  deer-radio-network:
+    driver: bridge
+
+volumes:
+  deer-radio-mysql-data:
+    driver: local
+  deer-radio-storage:
+    driver: local
+  deer-radio-php-vendor:
+    driver: local
+  deer-radio-js-vendor:
+    driver: local
